@@ -68,7 +68,13 @@ export default function Header() {
                         <ul className="mt-3 flex flex-col gap-3">
                             {navItems.map((item) => {
                                 return item.active ? (
-                                    <li key={item.slug} className="flex">
+                                    <li
+                                        key={item.slug}
+                                        className="flex"
+                                        onClick={() => {
+                                            setShowMenu(false)
+                                        }}
+                                    >
                                         <NavLink
                                             to={item.slug}
                                             className="w-full rounded-full px-6 py-2 text-xl font-bold text-[var(--light)] transition hover:bg-[var(--light)] hover:text-gray-800"
