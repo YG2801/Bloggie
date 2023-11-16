@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Arthemis";
+    src: url(./assets/Arthemis-PKY27.ttf);
+}
+
+:root {
+    --mid: #90afc5;
+    --light: #c4dfe6;
+    --dark: #405c70;
+}
+
+body {
+    --tw-bg-opacity: 1;
+    background-color: var(--mid);
+    font-family: "Poppins", sans-serif;
+}
