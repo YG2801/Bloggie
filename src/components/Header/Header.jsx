@@ -54,7 +54,7 @@ export default function Header() {
                     />
                     <div
                         className={`fixed right-0 top-0 z-10 translate-x-full rounded-l-xl bg-[var(--dark)] p-8 ${
-                            showMenu ? "-translate-x-0" : null
+                            showMenu ? "translate-x-0" : null
                         } shadow-2xl transition`}
                     >
                         <FaArrowRight
