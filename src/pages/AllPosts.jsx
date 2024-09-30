@@ -35,7 +35,7 @@ export default function AllPosts() {
   } else if (posts.length === 0) {
     return (
       <div className="fixed left-0 top-0 flex h-screen w-screen items-center justify-center">
-        <h1 className="text-xl font-medium">
+        <h1 className="text-xl font-medium px-4 text-center">
           You have not created any posts yet.{' '}
           <Link
             to="../add-post"
