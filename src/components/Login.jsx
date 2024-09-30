@@ -1,89 +1,92 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { login as authLogin } from "../store/authSlice"
-import { Button, Input, Logo } from "./index"
-import authService from "../appwrite/auth"
-import { useDispatch } from "react-redux"
-import { useForm } from "react-hook-form"
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { login as authLogin } from '../store/authSlice';
+import { Button, Input, GoogleLogin } from './index';
+import authService from '../appwrite/auth';
+import service from '../appwrite/conf_service';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import LoginBg from '../assets/login_bg.jpeg';
+import { toast } from 'react-toastify';
 
 export default function Login() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const { register, handleSubmit } = useForm()
-    const [error, setError] = useState("")
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { register, handleSubmit, reset } = useForm();
 
-    async function login(data) {
-        setError("")
-        try {
-            const session = await authService.login(data)
-            if (session) {
-                const userData = await authService.getCurrentUser()
-                if (userData) {
-                    dispatch(authLogin({ userData }))
-                    navigate("/")
-                }
-            }
-        } catch (error) {
-            setError(error.message)
+  async function login(data) {
+    reset();
+    try {
+      const session = await authService.login(data);
+      if (session) {
+        const userData = await authService.getCurrentUser();
+        if (userData) {
+          const user = await service.getUser(userData.$id);
+          if (!user) {
+            await service.createUser(userData);
+          }
+          dispatch(authLogin({ userData: { ...userData, userDetails: user } }));
+          navigate('/');
+          toast.success('Logged in successfully');
         }
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
+  }
 
-    return (
-        <div className="flex w-full items-center justify-center px-4">
-            <div
-                className={`mx-auto w-full max-w-lg rounded-xl border border-black/10 bg-gray-100 p-10`}
-            >
-                <div className="mb-2 flex justify-center">
-                    <span className="inline-block w-full max-w-[100px] text-center">
-                        <Logo />
-                    </span>
-                </div>
-                <h2 className="text-center text-2xl font-bold leading-tight">
-                    Log in to your account
-                </h2>
-                <p className="mt-2 text-center text-base text-black/60">
-                    Don&apos;t have any account?&nbsp;
-                    <Link
-                        to="/signup"
-                        className="text-primary font-medium transition-all duration-200 hover:underline"
-                    >
-                        Sign Up
-                    </Link>
-                </p>
-                {error && (
-                    <p className="mt-8 text-center text-red-600">{error}</p>
-                )}
-                <form onSubmit={handleSubmit(login)} className="mt-8">
-                    <div className="space-y-5">
-                        <Input
-                            label="Email: "
-                            placeholder="Enter your email"
-                            type="email"
-                            {...register("email", {
-                                required: true,
-                                validate: {
-                                    matchPatern: (value) =>
-                                        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                                            value
-                                        ) ||
-                                        "Email address must be a valid address",
-                                },
-                            })}
-                        />
-                        <Input
-                            label="Password: "
-                            placeholder="Enter your password"
-                            type="password"
-                            {...register("password", {
-                                required: true,
-                            })}
-                        />
-                        <Button type="submit" className="w-full">
-                            Log In
-                        </Button>
-                    </div>
-                </form>
-            </div>
+  return (
+    <div className="flex h-full gap-48">
+      <img
+        src={LoginBg}
+        alt="login-background"
+        className="hidden h-full rounded-r-[50%] md:inline-block"
+      />
+      <div className="mt-[10vh] basis-full px-6 md:mt-0 md:basis-1/3 md:self-center md:px-0">
+        <h2 className="text-center text-2xl font-semibold leading-tight">
+          Log in to your account
+        </h2>
+        <div className="mt-4">
+          <GoogleLogin label="Sign in with Google" />
         </div>
-    )
+        <form
+          onSubmit={handleSubmit(login)}
+          className="mt-8 border-t border-gray-400 pt-4"
+        >
+          <div className="space-y-5">
+            <Input
+              label="Email"
+              placeholder="Enter your email"
+              type="email"
+              {...register('email', {
+                required: true,
+                validate: {
+                  matchPatern: (value) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                    'Email address must be a valid address',
+                },
+              })}
+            />
+            <Input
+              label="Password"
+              placeholder="Enter your password"
+              type="password"
+              {...register('password', {
+                required: true,
+              })}
+            />
+            <Button type="submit" className="w-full font-Raleway font-medium">
+              Log In
+            </Button>
+          </div>
+        </form>
+        <p className="mt-4 text-center text-black/60">
+          Don&apos;t have any account?&nbsp;
+          <Link to="/signup" className="font-medium hover:underline">
+            Sign Up
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 }

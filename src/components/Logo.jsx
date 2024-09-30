@@ -1,13 +1,13 @@
-import React from "react"
-import { FaFeatherAlt } from "react-icons/fa"
+import React from 'react';
+import { FaFeatherAlt } from 'react-icons/fa';
 
-export default function Logo({ className }) {
-    return (
-        <div
-            className={`flex items-center gap-1 text-3xl text-gray-900 ${className}`}
-        >
-            <FaFeatherAlt />
-            <p className="font-[Arthemis] font-semibold">Bloggie</p>
-        </div>
-    )
+export default function Logo() {
+  return (
+    <div
+      className={`text-very-dark-purple flex select-none items-center gap-2 text-4xl`}
+    >
+      <FaFeatherAlt />
+      <p className="font-Arthemis font-semibold">Bloggie</p>
+    </div>
+  );
 }
