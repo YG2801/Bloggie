@@ -37,11 +37,13 @@ export default function Login() {
 
   return (
     <div className="flex h-full gap-48">
-      <img
-        src={LoginBg}
-        alt="login-background"
-        className="hidden h-full rounded-r-[50%] md:inline-block"
-      />
+      <div className="hidden h-full min-w-[300px] max-w-fit rounded-r-[50%] md:block">
+        <img
+          src={LoginBg}
+          alt="login-background"
+          className="hidden h-full rounded-r-[50%] md:inline-block"
+        />
+      </div>
       <div className="mt-[10vh] basis-full px-6 md:mt-0 md:basis-1/3 md:self-center md:px-0">
         <h2 className="text-center text-2xl font-semibold leading-tight">
           Log in to your account

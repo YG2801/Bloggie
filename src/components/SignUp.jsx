@@ -38,11 +38,13 @@ export default function SignUp() {
 
   return (
     <div className="flex h-full gap-48">
-      <img
-        src={SignUpBg}
-        alt="login-background"
-        className="hidden h-full rounded-r-[50%] md:inline-block"
-      />
+      <div className="hidden h-full min-w-[300px] max-w-fit rounded-r-[50%] md:block">
+        <img
+          src={SignUpBg}
+          alt="login-background"
+          className="hidden h-full rounded-r-[50%] md:inline-block"
+        />
+      </div>
       <div className="mt-[6vh] basis-full px-6 md:mt-0 md:basis-1/3 md:self-center md:px-0">
         <h2 className="px-6 text-center text-2xl font-semibold leading-tight">
           Sign up to create an account
